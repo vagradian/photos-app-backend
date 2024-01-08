@@ -106,7 +106,15 @@ const port = 3003;
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json'); // Assuming you want to send JSON
-  res.end(JSON.stringify(generatePhotoObjects()));
+
+  const url = req.url;
+
+  if (url === "/photos") {
+    res.end(JSON.stringify(generatePhotoObjects()));
+  }
+  else {
+    res.end('bad request');
+  }
 });
 
 server.listen(port, hostname, () => {
