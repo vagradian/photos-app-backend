@@ -100,17 +100,15 @@ function generatePhotoObjects() {
   return photoArray;
 }
 
-const hostname = ' ';
+const hostname = '127.0.0.1';
 const port = 3003;
 
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json'); // Assuming you want to send JSON
   res.end(JSON.stringify(generatePhotoObjects()));
+});
 
-  const url = req.url;
-
-  if (url === '/photos') {
-    const data = fs.readFileSync('data.txt', 'utf8');
-  }
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
 });
