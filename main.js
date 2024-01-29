@@ -1,5 +1,17 @@
-const http = require('node:http');
+const express = require('express');
 const fs = require('fs');
+
+const app = express();
+const port = 3003;
+
+app.get('/photos', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.json(generatePhotoObjects());
+});
+
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}/`);
+});
 
 function readDataFromFile(filename) {
   try {
@@ -68,7 +80,7 @@ function generateRandomDescription(descriptions) {
 }
 
 function generateComments(commentsOptions, authorNames) {
-  const numComments = getRandomNumber(0, 5);
+  const numComments = getRandomNumber(0, 9);
   const comments = [];
 
   for (let j = 0; j < numComments; j++) {
@@ -99,24 +111,3 @@ function generatePhotoObjects() {
 
   return photoArray;
 }
-
-const hostname = '127.0.0.1';
-const port = 3003;
-
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'application/json'); // Assuming you want to send JSON
-
-  const url = req.url;
-
-  if (url === "/photos") {
-    res.end(JSON.stringify(generatePhotoObjects()));
-  }
-  else {
-    res.end('bad request');
-  }
-});
-
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
